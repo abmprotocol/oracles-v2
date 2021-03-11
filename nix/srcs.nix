@@ -30,7 +30,8 @@ rec {
   in nodepkgs' // shortNames;
 
   ssb-server = nodepkgs.ssb-server.override {
-    buildInputs = with pkgs; [ gnumake nodepkgs.node-gyp-build ];
+    buildInputs = with pkgs; [ gnumake nodepkgs.node-gyp-build nodepkgs.patch-package ];
+    postInstall = "patch-package";
   };
 
   setzer-mcd = makerpkgs.callPackage sources.setzer-mcd {};
@@ -41,3 +42,4 @@ rec {
 
   install-omnia = makerpkgs.callPackage ../systemd { inherit ssb-server omnia; };
 }
+#vim $(dirname `which ssb-server`)/../ssb-server/node_modules/ssb-db/minimal.js
