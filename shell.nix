@@ -1,12 +1,10 @@
 let
   srcs = import ./nix/srcs.nix;
 in
-
-{ pkgs ? srcs.pkgs
-}@args:
-
-let oracles = import ./. args; in
-
+{ pkgs ? srcs.pkgs }@args:
+let
+  oracles = import ./. args;
+in
 pkgs.mkShell rec {
   name = "oracle-shell";
   buildInputs = oracles.omnia.runtimeDeps ++ (with pkgs; [
@@ -68,5 +66,8 @@ pkgs.mkShell rec {
         fi
       fi
     }
+    echo 'Locally available commands:
+      * updateNodePackages
+      * release [--help]'
   '';
 }
