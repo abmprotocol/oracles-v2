@@ -18,12 +18,12 @@ importEnv () {
 	#check if config file is valid json
 	jq -e . "$config" >/dev/null 2>&1 || { error "Error - Config is not valid JSON"; exit 1; }
 
-	importMode "$config"
-	importEthereumEnv "$config"
-	importStarkwareEnv "$config"
-	importAssetPairsEnv "$config"
-	importOptionsEnv "$config"
-	importScuttlebotEnv
+	importMode "$config"           #---get FEED/RELAYER mode---
+	importEthereumEnv "$config"    #---get ETHEREUM Credentials---
+	importStarkwareEnv "$config"   #---get StarkWare Env variables---
+	importAssetPairsEnv "$config"  #---get Asset Specific values for feed/relayer---
+	importOptionsEnv "$config"     #---get Options----
+	importScuttlebotEnv            #---get Scuttlebot Feed ID----
 	if [[ "$OMNIA_MODE" == "FEED" ]]; then
 		importServicesEnv "$config"
 	fi
